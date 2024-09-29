@@ -4,7 +4,6 @@ import CardDesign from "./CardDesign";
 const Socket = () => {
   const [message, setMessage] = useState(null); // Initialize as an empty string
   const [ws, setWs] = useState(null);
-  const [input, setInput] = useState("");
   const [totalUsers, setTotalUsers] = useState(0);
 
   useEffect(() => {
@@ -17,7 +16,6 @@ const Socket = () => {
     websocket.onmessage = (event) => {
       try {
         const msg = JSON.parse(event.data);
-        // setMessage(msg.message); // Set the latest message as a simple string
         setMessage(msg);
         setTotalUsers(msg.total_connected_users);
 
@@ -54,13 +52,7 @@ const Socket = () => {
         }
       }
     }
-    // if (message && message.articles) {
-    //   return message.articles.map((article, index) => (
-    //     <div key={index}>
-    //       <CardDesign data={article} />
-    //     </div>
-    //   ));
-    // }
+
 
     return newArticles.map((article, index) => (
       <div key={index}>
