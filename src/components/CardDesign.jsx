@@ -1,9 +1,7 @@
-
-
 import React from "react";
 import { Container, Card, Button } from "react-bootstrap";
 
-const CardDesign = ({ data }) => {
+const CardDesign = ({ data, users }) => {
   const containerDesign = {
     width: "50vw",
     backgroundColor: "#A6ECE0",
@@ -71,4 +69,3 @@ const CardDesign = ({ data }) => {
 };
 
 export default CardDesign;
-

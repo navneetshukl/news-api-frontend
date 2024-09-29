@@ -5,6 +5,7 @@ const Socket = () => {
   const [message, setMessage] = useState(null); // Initialize as an empty string
   const [ws, setWs] = useState(null);
   const [input, setInput] = useState("");
+  const [totalUsers, setTotalUsers] = useState(0);
 
   useEffect(() => {
     const websocket = new WebSocket("ws://localhost:8080/ws");
@@ -18,6 +19,7 @@ const Socket = () => {
         const msg = JSON.parse(event.data);
         // setMessage(msg.message); // Set the latest message as a simple string
         setMessage(msg);
+        setTotalUsers(msg.total_connected_users);
 
         console.log("msg is ", msg);
         console.log("message is ", message);
@@ -62,13 +64,15 @@ const Socket = () => {
 
     return newArticles.map((article, index) => (
       <div key={index}>
-        <CardDesign data={article} />
+        <CardDesign data={article}users={totalUsers} />
       </div>
     ));
     return null;
   };
 
-  return <div>{renderArticles()}</div>;
+  return <div>
+  <h1>Total Connected Users:{totalUsers}</h1>
+  {renderArticles()}</div>;
 };
 
 export default Socket;
