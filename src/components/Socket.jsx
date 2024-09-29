@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import CardDesign from "./CardDesign";
 
 const Socket = () => {
-  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState(null); // Initialize as an empty string
   const [ws, setWs] = useState(null);
+  const [input, setInput] = useState("");
 
   useEffect(() => {
     const websocket = new WebSocket("ws://localhost:8080/ws");
@@ -13,10 +14,20 @@ const Socket = () => {
     };
 
     websocket.onmessage = (event) => {
-      const message = JSON.parse(event.data); // Parse the incoming JSON
-      setMessages(message);
+      try {
+        const msg = JSON.parse(event.data);
+        // setMessage(msg.message); // Set the latest message as a simple string
+        setMessage(msg);
 
-      console.log("messages is ", messages);
+        console.log("msg is ", msg);
+        console.log("message is ", message);
+      } catch (error) {
+        console.error("Error parsing message:", error);
+      }
+    };
+
+    websocket.onerror = (error) => {
+      console.error("WebSocket Error:", error);
     };
 
     websocket.onclose = () => {
@@ -29,17 +40,35 @@ const Socket = () => {
       websocket.close();
     };
   }, []);
-  return (
-    <div>
-      {/* {messages.map((value, index) => {
-        return (
-          <div key={index}>
-            <CardDesign data={value} />
-          </div>
-        );
-      })} */}
-    </div>
-  );
+
+  const renderArticles = () => {
+    let newArticles = [];
+    if (message && message.articles) {
+      let articles = message.articles;
+      let len = articles.length;
+      for (let i = 0; i < len; i++) {
+        if (articles[i].author.length > 0) {
+          newArticles.push(articles[i]);
+        }
+      }
+    }
+    // if (message && message.articles) {
+    //   return message.articles.map((article, index) => (
+    //     <div key={index}>
+    //       <CardDesign data={article} />
+    //     </div>
+    //   ));
+    // }
+
+    return newArticles.map((article, index) => (
+      <div key={index}>
+        <CardDesign data={article} />
+      </div>
+    ));
+    return null;
+  };
+
+  return <div>{renderArticles()}</div>;
 };
 
 export default Socket;

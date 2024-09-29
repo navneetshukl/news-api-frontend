@@ -1,9 +1,9 @@
-import React from "react";
-import { Container } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
 
-const CardDesign = () => {
+
+import React from "react";
+import { Container, Card, Button } from "react-bootstrap";
+
+const CardDesign = ({ data }) => {
   const containerDesign = {
     width: "50vw",
     backgroundColor: "#A6ECE0",
@@ -14,33 +14,56 @@ const CardDesign = () => {
     marginRight: "auto",
     border: "2px solid red",
     alignItems: "center",
+    maxHeight: "100vh",
+    overflowY: "hidden", // Add this to hide overflow
   };
 
-  const pdesign = {
-    fontSize: "20px",
+  const cardDesign = {
+    height: "100%", // Make card take full container height
+    display: "flex",
+    flexDirection: "column", // Arrange content vertically
   };
+
   const imageStyle = {
-    height: "20%",
+    height: "20vh", // Set fixed height for image
     objectFit: "cover",
     width: "40%",
     marginLeft: "15vw",
+    marginBottom: "2vh", // Add margin for spacing
+  };
+
+  const pdesign = {
+    fontSize: "18px", // Reduce font size
+    textAlign: "center",
+  };
+
+  const titleDesign = {
+    fontSize: "20px",
+    textAlign: "center",
+    marginBottom: "2vh", // Add margin for spacing
   };
 
   return (
     <Container style={containerDesign}>
-      <Card>
+      <Card style={cardDesign}>
         <Card.Img style={imageStyle} variant="top" src={data.urlToImage} />
         <Card.Body>
-          <Card.Title style={{ textAlign: "center" }}>
+          <Card.Title style={titleDesign}>
             <h2>{data.title}</h2>
           </Card.Title>
-          <br />
-          <Card.Text style={{ textAlign: "center" }}>
-            <p style={pdesign}>{data.description}</p>
+          <Card.Text style={pdesign}>
+            {/* {data.description.substring(0, 200)}...{" "}  */}
+            {/* Trim description to 200 chars */}
+            {data.description}
           </Card.Text>
         </Card.Body>
-        <a href={data.url} target="_blank" rel="noopener noreferrer">
-          <p style={{ textAlign: "center" }}> Read Full Article</p>
+        <a
+          href={data.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ textAlign: "center", marginBottom: "2vh" }}
+        >
+          Read Full Article
         </a>
       </Card>
     </Container>
@@ -48,3 +71,4 @@ const CardDesign = () => {
 };
 
 export default CardDesign;
+
