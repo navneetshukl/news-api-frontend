@@ -53,18 +53,26 @@ const Socket = () => {
       }
     }
 
-
     return newArticles.map((article, index) => (
       <div key={index}>
-        <CardDesign data={article}users={totalUsers} />
+        <CardDesign data={article} users={totalUsers} />
       </div>
     ));
     return null;
   };
 
-  return <div>
-  <h1>Total Connected Users:{totalUsers}</h1>
-  {renderArticles()}</div>;
+  return (
+    <div>
+      <h1
+        style={{
+          position: "fixed",
+        }}
+      >
+        Total Connected Users: {totalUsers}
+      </h1>
+      {renderArticles()}
+    </div>
+  );
 };
 
 export default Socket;
